@@ -1,11 +1,13 @@
-# Imagen base oficial con Apache y PHP
 FROM php:8.1-apache
 
-# Copiar todos los archivos del proyecto al directorio web
+# Copiar el contenido del proyecto
 COPY . /var/www/html/
 
-# Instalar extensiones necesarias (mysqli por ejemplo)
+# Instalar extensiones necesarias
 RUN docker-php-ext-install mysqli
 
-# Puerto que expondrá el contenedor (Render espera 80)
+# Cambiar página de inicio a login.php
+RUN echo "DirectoryIndex login.php" > /etc/apache2/conf-available/custom-directoryindex.conf \
+    && a2enconf custom-directoryindex
+
 EXPOSE 80
